@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MVC_1stLecture.Models;
-using System.Dynamic;
+
 
 namespace MVC_1stLecture.Controllers
 {
@@ -44,10 +44,37 @@ namespace MVC_1stLecture.Controllers
             Context.SaveChanges();
 
             System.Diagnostics.Debug.WriteLine($"ID: {Product.Id} Name: {Product.Name} Price: {Product.Price}");
-                return RedirectToAction("GetProduct", Product);
+                return RedirectToAction("Index", Product);
         }
+        public IActionResult Edit(int? id)
+        {
+            Product Product = Context.Products.FirstOrDefault(x => x.Id == id);
+            return View(Product);
+        }
+        [HttpPost]
+        public IActionResult Edit(int id, string name, double price)
+        {
+            Product Product = Context.Products.FirstOrDefault(x => x.Id == id);
+            Product.Name = name;
+            Product.Price = Convert.ToDouble(price);
+            Context.SaveChanges();
+            return RedirectToAction("index");
+        }
+        public IActionResult Delete(int? id)
+        {
+            Product Product = Context.Products.FirstOrDefault(x => x.Id == id);
+            return View(Product);
+        }
+        [HttpPost]
+        public IActionResult DeleteYes(int? id)
+        {
+            Product Product = Context.Products.FirstOrDefault(x => x.Id == id);
+            Context.Remove(Product);
+            Context.SaveChanges();
+            return RedirectToAction("index");
 
 
+        }
 
     }
 }

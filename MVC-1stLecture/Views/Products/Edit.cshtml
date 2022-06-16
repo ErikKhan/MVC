@@ -1,0 +1,15 @@
+﻿@model Product
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<form asp-action = "Edit">
+    id: <input type="text" value="@Model.Id" name="id"/><br>
+    Name: <input type="text" value="@Model.Name" name="name"/><br>
+    Price: <input type="text" value="@Model.Price"  name="price"/>
+
+    <input type="submit" value="Update Values"/>
+</form>
+
