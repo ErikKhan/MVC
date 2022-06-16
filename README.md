@@ -1,1 +1,1 @@
-# MVC-1stLecture
+# MVC-Model View Controller Using Entity FrameWork
