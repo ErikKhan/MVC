@@ -6,6 +6,11 @@ namespace MVC_1stLecture.Controllers
 {
     public class ProductsController : Controller
     {
+        MyDbContext Context;
+        public ProductsController(MyDbContext context)
+        {
+            Context = context;
+        }
         public IActionResult Index()
         {
            //One way to Send infotmation to View
@@ -13,7 +18,9 @@ namespace MVC_1stLecture.Controllers
             //dynamic mymodel = new ExpandoObject();
             //mymodel.Product = GetProduct();
             //return View(mymodel);
-            return View();
+
+            List<Product> AllProducts = Context.Products.ToList();
+            return View(AllProducts);
         }
         public IActionResult GetProduct(Product? Product1)
         {
@@ -21,10 +28,7 @@ namespace MVC_1stLecture.Controllers
             //return x;
             return View(Product1);
         }
-        public IActionResult GetProduct1(Product? Product1)
-        {
-            return View(Product1);
-        }
+       
         public IActionResult Create()
         {
             return View();
@@ -33,9 +37,12 @@ namespace MVC_1stLecture.Controllers
         public IActionResult Create(int id, string name, double price)
         {
             Product Product = new Product();
-            Product.Id = id;
+            //Product.Id = id;
             Product.Name = name;
             Product.Price = Convert.ToDouble(price);
+            Context.Products.Add(Product);
+            Context.SaveChanges();
+
             System.Diagnostics.Debug.WriteLine($"ID: {Product.Id} Name: {Product.Name} Price: {Product.Price}");
                 return RedirectToAction("GetProduct", Product);
         }
